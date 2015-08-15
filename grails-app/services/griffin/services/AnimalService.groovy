@@ -19,10 +19,11 @@ class AnimalService {
 		}
 		Animal a = new Animal (name: name, classification: classification).save()
 		if (a) {
-			log.debug "Created animal: " + name
+			log.debug "Created animal: " + a
 		} else {
 			log.error "Error creating animal: animalName:" + name + " classification:" + classification
 		}
+		return a
     }
 	
     private static final Log log = LogFactory.getLog(this)

@@ -15,7 +15,7 @@ class ClassificationService {
 		}
 		Classification c = new Classification(name: classificationName).save()
 		if (c)
-			log.debug "created classification: " + classificationName
+			log.debug "created classification: " + c
 		else
 			log.error "failed to create classification: " + classificationName
 		return c;

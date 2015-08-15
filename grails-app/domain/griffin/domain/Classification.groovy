@@ -7,4 +7,9 @@ class Classification {
     static constraints = {
 		name unique: true
     }
+
+	@Override
+	public String toString() {
+		return "Classification[name: "+name+"]"
+	}
 }

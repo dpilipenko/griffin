@@ -9,4 +9,9 @@ class Animal {
 		name required: true
 		classification required: true
     }
+	
+	@Override
+	public String toString() {
+		return "Animal[name: "+name+" classification: "+ classification + "]"
+	}
 }
