@@ -43,12 +43,8 @@ class BootStrap {
 		
 		/* define Armies */
 		log.info "Begin defining Armies"
-		Set<Animal> armyRecruits = new HashSet<Animal>()
-		armyRecruits.add(createMeALion())
-		armyRecruits.add(createMeALion())
-		armyRecruits.add(createMeALion())
-		armyRecruits.add(createMeALion())
-		Army army = armyService.create armyRecruits
+		Army landArmy = createLandArmy()
+		Army otherArmy = createOtherArmy()
 		log.info "Complete defining Armies"
 		
 		log.info "Complete initializing Griffin"
@@ -56,17 +52,39 @@ class BootStrap {
     def destroy = {
     }
 	
+	def addAnimal (AnimalTemplate animalTemplate) {
+		Animal a = animalService.create animalTemplate
+		return a
+	}
 	def addAnimalTemplate (String animalName, Classification classification) {
-		AnimalTemplate a = animalTemplateService.create(animalName, classification)
+		AnimalTemplate a = animalTemplateService.create animalName, classification
 		return a
 	}
 	def addClassification (String classificationName) {
-		Classification c = classificationService.create(classificationName)
+		Classification c = classificationService.create classificationName
 		return c
 	}
-	Animal createMeALion() {
-		Animal a = animalService.create(lion)
-		return a
+	def createLandArmy () {
+		Set<Animal> recruits = new HashSet<Animal>()
+		recruits.add addAnimal(lion)
+		recruits.add addAnimal(lion)
+		recruits.add addAnimal(lion)
+		recruits.add addAnimal(snake)
+		recruits.add addAnimal(snake)
+		recruits.add addAnimal(snake)
+		Army army = armyService.create recruits
+		return army
+	}
+	def createOtherArmy () {
+		Set<Animal> recruits = new HashSet<Animal>()
+		recruits.add addAnimal(vulture)
+		recruits.add addAnimal(vulture)
+		recruits.add addAnimal(vulture)
+		recruits.add addAnimal(orca)
+		recruits.add addAnimal(orca)
+		recruits.add addAnimal(orca)
+		Army army = armyService.create recruits
+		return army
 	}
 	
 	private static final log = LogFactory.getLog(this)
