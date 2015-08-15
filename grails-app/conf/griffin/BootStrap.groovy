@@ -27,18 +27,18 @@ class BootStrap {
 		
 		/* define Classifications */
 		log.info "Begin defining Classifications"
-		classMammal = addClassification MAMMAL
-		classFish = addClassification FISH
-		classBird = addClassification BIRD
-		classReptile = addClassification REPTILE
+		classMammal = addClassification CLASS_MAMMAL
+		classFish = addClassification CLASS_FISH
+		classBird = addClassification CLASS_BIRD
+		classReptile = addClassification CLASS_REPTILE
 		log.info "Complete defining Classifications"
 		
 		/* define Animal Templates */
 		log.info "Begin defining Animal Templates"
-		templateLion = addAnimalTemplate LION, classMammal, 40
-		templateOrca = addAnimalTemplate ORCA, classFish, 80
-		templateVulture = addAnimalTemplate VULTURE, classBird, 60
-		templateSnake = addAnimalTemplate SNAKE, classReptile, 20
+		templateLion = createTemplateLion ()
+		templateOrca = createTemplateOrca ()
+		templateVulture = createTemplateVulture ()
+		templateSnake = createTemplateSnake ()
 		log.info "Complete defining Animal Templates"
 		
 		/* define Armies */
@@ -56,13 +56,25 @@ class BootStrap {
 		Animal a = animalService.create animalTemplate
 		return a
 	}
+	def addClassification (String classificationName) {
+		Classification c = classificationService.create classificationName
+		return c
+	}
 	def addAnimalTemplate (String animalName, Classification classification, int maxHealth) {
 		AnimalTemplate a = animalTemplateService.create animalName, classification, maxHealth
 		return a
 	}
-	def addClassification (String classificationName) {
-		Classification c = classificationService.create classificationName
-		return c
+	def createTemplateLion () {
+		return addAnimalTemplate (TEMPLATE_LION, classMammal, 40)
+	}
+	def createTemplateOrca() {
+		return addAnimalTemplate (TEMPLATE_ORCA, classFish, 80)
+	}
+	def createTemplateVulture() {
+		return addAnimalTemplate (TEMPLATE_VULTURE, classBird, 60)
+	}
+	def createTemplateSnake() {
+		return addAnimalTemplate (TEMPLATE_SNAKE, classReptile, 20)
 	}
 	def createLandArmy () {
 		Set<Animal> recruits = new HashSet<Animal>()
@@ -89,13 +101,13 @@ class BootStrap {
 	
 	private static final log = LogFactory.getLog(this)
 	/* string constants here */
-	private static final String MAMMAL = "mammal" 
-	private static final String FISH = "fish"
-	private static final String BIRD = "bird"
-	private static final String REPTILE = "reptile"
-	private static final String LION = "templateLion"
-	private static final String ORCA = "templateOrca"
-	private static final String VULTURE = "templateVulture"
-	private static final String SNAKE = "templateSnake"
+	private static final String CLASS_MAMMAL = "mammal" 
+	private static final String CLASS_FISH = "fish"
+	private static final String CLASS_BIRD = "bird"
+	private static final String CLASS_REPTILE = "reptile"
+	private static final String TEMPLATE_LION = "templateLion"
+	private static final String TEMPLATE_ORCA = "templateOrca"
+	private static final String TEMPLATE_VULTURE = "templateVulture"
+	private static final String TEMPLATE_SNAKE = "templateSnake"
 }
 	
