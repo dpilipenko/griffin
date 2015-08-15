@@ -9,6 +9,8 @@ class BootStrap {
 	def classificationService
 	
     def init = { servletContext ->	
+		log.info "Begin initializing Griffin"
+		
 		/* define Classifications */
 		log.info "Begin defining Classifications"
 		Classification classMammal = addClassification "mammal"
@@ -25,6 +27,7 @@ class BootStrap {
 		Animal snake = addAnimal "snake", classReptile
 		log.info "Complete defining Animals"
 		
+		log.info "Complete initializing Griffin"
     }
     def destroy = {
     }
