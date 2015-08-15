@@ -1,3 +1,6 @@
+import org.apache.log4j.DailyRollingFileAppender
+import org.apache.log4j.RollingFileAppender
+
 // locations to search for config files that get merged into the main config;
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
@@ -96,6 +99,14 @@ environments {
 }
 
 // log4j configuration
+log4j.appenders = {
+	appender new DailyRollingFileAppender(
+			name: "file",
+			file: "logs/griffin-application.log",
+			datePattern: "'.'yyyy-MM-dd",   //Rollover at midnight each day.
+			layout: pattern(conversionPattern: "%d{yy.MM.dd HH:mm:ss} [%t] %-5p %c %x - %m%n")
+			)
+}
 log4j.main = {
     // Example of changing the log pattern for the default console appender:
     //
@@ -115,5 +126,11 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 		   
+	   root {
+		   error 'stdout', 'file'
+	   }
+		   
 	debug  'griffin'
+	
 }
+
