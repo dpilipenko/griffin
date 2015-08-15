@@ -8,13 +8,13 @@ class BootStrap {
 	private static final log = LogFactory.getLog(this)
 	
     def init = { servletContext ->
-		log.info "testing log"
 		
 		/* define Classifications */
 		addClassification "mammal"
 		addClassification "fish"
 		addClassification "bird"
 		addClassification "reptile"
+		log.info "Defined Classifications"
 		
     }
     def destroy = {
