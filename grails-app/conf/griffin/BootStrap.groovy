@@ -1,17 +1,26 @@
 package griffin
 
 import griffin.domain.Animal
+import griffin.domain.AnimalTemplate
 import griffin.domain.Army
 import griffin.domain.Classification
 import org.apache.commons.logging.LogFactory
 
 class BootStrap {
 	def animalService
+	def animalTemplateService
+	def armyService
 	def classificationService
 	
 	/* shared members here */
+	AnimalTemplate lion;
+	AnimalTemplate orca;
+	AnimalTemplate vulture;
+	AnimalTemplate snake;
 	Classification classMammal;
 	Classification classFish;
+	Classification classBird;
+	Classification classReptile;
 	
     def init = { servletContext ->	
 		log.info "Begin initializing Griffin"
@@ -20,32 +29,26 @@ class BootStrap {
 		log.info "Begin defining Classifications"
 		classMammal = addClassification "mammal"
 		classFish = addClassification "fish"
-		Classification classBird = addClassification "bird"
-		Classification classReptile = addClassification "reptile"
+		classBird = addClassification "bird"
+		classReptile = addClassification "reptile"
 		log.info "Complete defining Classifications"
 		
-		/* define Animals */
-		log.info "Begin defining Animals"
-		Animal lion = createAnimalLion()
-		Animal orca = createAnimalOrca()
-		Animal vulture = addAnimal "vulture", classBird
-		Animal snake = addAnimal "snake", classReptile
-		log.info "Complete defining Animals"
+		/* define Animal Templates */
+		log.info "Begin defining Animal Templates"
+		lion = addAnimalTemplate "lion", classMammal
+		orca = addAnimalTemplate "orca", classFish
+		vulture = addAnimalTemplate "vulture", classBird
+		snake = addAnimalTemplate "snake", classReptile
+		log.info "Complete defining Animal Templates"
 		
 		/* define Armies */
 		log.info "Begin defining Armies"
-		Army army = new Army().save();
 		Set<Animal> armyRecruits = new HashSet<Animal>()
-		armyRecruits.add(createAnimalLion())
-		armyRecruits.add(createAnimalLion())
-		armyRecruits.add(createAnimalLion())
-		armyRecruits.add(createAnimalOrca())
-		army.animals = armyRecruits
-		if (!army.save()) {
-			log.error "Problem saving the army"
-		}
-		
-		log.info "animals size:" + army.animals.size()
+		armyRecruits.add(createMeALion())
+		armyRecruits.add(createMeALion())
+		armyRecruits.add(createMeALion())
+		armyRecruits.add(createMeALion())
+		Army army = armyService.create armyRecruits
 		log.info "Complete defining Armies"
 		
 		log.info "Complete initializing Griffin"
@@ -53,20 +56,17 @@ class BootStrap {
     def destroy = {
     }
 	
-	def addAnimal (String animalName, Classification classification) {
-		Animal a = animalService.create(animalName, classification)
+	def addAnimalTemplate (String animalName, Classification classification) {
+		AnimalTemplate a = animalTemplateService.create(animalName, classification)
 		return a
 	}
 	def addClassification (String classificationName) {
 		Classification c = classificationService.create(classificationName)
 		return c
 	}
-	
-	Animal createAnimalLion () {
-		return addAnimal ("lion", classMammal)
-	}
-	Animal createAnimalOrca () {
-		return addAnimal ("orca", classFish)
+	Animal createMeALion() {
+		Animal a = animalService.create(lion)
+		return a
 	}
 	
 	private static final log = LogFactory.getLog(this)

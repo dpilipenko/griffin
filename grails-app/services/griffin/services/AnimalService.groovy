@@ -5,26 +5,24 @@ import org.apache.commons.logging.LogFactory;
 
 import grails.transaction.Transactional
 import griffin.domain.Animal
-import griffin.domain.Classification
+import griffin.domain.AnimalTemplate
+import griffin.domain.Classification;
 
 @Transactional
 class AnimalService {
 
-    def create(String name, Classification classification) {
-		if (name == null || name.isEmpty()) {
+	def create(AnimalTemplate template) {
+		if (template == null) {
 			return null;
 		}
-		if (classification == null) {
-			return null;
-		}
-		Animal a = new Animal (name: name, classification: classification).save()
+		Animal a = new Animal (template: template).save()
 		if (a) {
-			log.debug "Created animal: " + a
+			log.debug "Create animal: " + a
 		} else {
-			log.error "Error creating animal: animalName:" + name + " classification:" + classification
+			log.error "Error creating animal: template:" + template
 		}
 		return a
-    }
+	}
 	
-    private static final Log log = LogFactory.getLog(this)
+	private static final Log log = LogFactory.getLog(this)
 }
