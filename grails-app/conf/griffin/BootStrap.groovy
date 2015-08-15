@@ -27,18 +27,18 @@ class BootStrap {
 		
 		/* define Classifications */
 		log.info "Begin defining Classifications"
-		classMammal = addClassification "mammal"
-		classFish = addClassification "fish"
-		classBird = addClassification "bird"
-		classReptile = addClassification "reptile"
+		classMammal = addClassification MAMMAL
+		classFish = addClassification FISH
+		classBird = addClassification BIRD
+		classReptile = addClassification REPTILE
 		log.info "Complete defining Classifications"
 		
 		/* define Animal Templates */
 		log.info "Begin defining Animal Templates"
-		lion = addAnimalTemplate "lion", classMammal
-		orca = addAnimalTemplate "orca", classFish
-		vulture = addAnimalTemplate "vulture", classBird
-		snake = addAnimalTemplate "snake", classReptile
+		lion = addAnimalTemplate LION, classMammal
+		orca = addAnimalTemplate ORCA, classFish
+		vulture = addAnimalTemplate VULTURE, classBird
+		snake = addAnimalTemplate SNAKE, classReptile
 		log.info "Complete defining Animal Templates"
 		
 		/* define Armies */
@@ -88,5 +88,14 @@ class BootStrap {
 	}
 	
 	private static final log = LogFactory.getLog(this)
+	/* string constants here */
+	private static final String MAMMAL = "mammal" 
+	private static final String FISH = "fish"
+	private static final String BIRD = "bird"
+	private static final String REPTILE = "reptile"
+	private static final String LION = "lion"
+	private static final String ORCA = "orca"
+	private static final String VULTURE = "vulture"
+	private static final String SNAKE = "snake"
 }
 	
