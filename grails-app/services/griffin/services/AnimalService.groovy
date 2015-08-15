@@ -15,7 +15,7 @@ class AnimalService {
 		if (template == null) {
 			return null;
 		}
-		Animal a = new Animal (template: template).save()
+		Animal a = new Animal (health: template.maxHealth, template: template).save()
 		if (a) {
 			log.debug "Create animal: " + a
 		} else {

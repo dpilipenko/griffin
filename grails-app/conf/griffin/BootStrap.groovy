@@ -13,10 +13,10 @@ class BootStrap {
 	def classificationService
 	
 	/* shared members here */
-	AnimalTemplate lion;
-	AnimalTemplate orca;
-	AnimalTemplate vulture;
-	AnimalTemplate snake;
+	AnimalTemplate templateLion;
+	AnimalTemplate templateOrca;
+	AnimalTemplate templateVulture;
+	AnimalTemplate templateSnake;
 	Classification classMammal;
 	Classification classFish;
 	Classification classBird;
@@ -35,10 +35,10 @@ class BootStrap {
 		
 		/* define Animal Templates */
 		log.info "Begin defining Animal Templates"
-		lion = addAnimalTemplate LION, classMammal
-		orca = addAnimalTemplate ORCA, classFish
-		vulture = addAnimalTemplate VULTURE, classBird
-		snake = addAnimalTemplate SNAKE, classReptile
+		templateLion = addAnimalTemplate LION, classMammal, 40
+		templateOrca = addAnimalTemplate ORCA, classFish, 80
+		templateVulture = addAnimalTemplate VULTURE, classBird, 60
+		templateSnake = addAnimalTemplate SNAKE, classReptile, 20
 		log.info "Complete defining Animal Templates"
 		
 		/* define Armies */
@@ -56,8 +56,8 @@ class BootStrap {
 		Animal a = animalService.create animalTemplate
 		return a
 	}
-	def addAnimalTemplate (String animalName, Classification classification) {
-		AnimalTemplate a = animalTemplateService.create animalName, classification
+	def addAnimalTemplate (String animalName, Classification classification, int maxHealth) {
+		AnimalTemplate a = animalTemplateService.create animalName, classification, maxHealth
 		return a
 	}
 	def addClassification (String classificationName) {
@@ -66,23 +66,23 @@ class BootStrap {
 	}
 	def createLandArmy () {
 		Set<Animal> recruits = new HashSet<Animal>()
-		recruits.add addAnimal(lion)
-		recruits.add addAnimal(lion)
-		recruits.add addAnimal(lion)
-		recruits.add addAnimal(snake)
-		recruits.add addAnimal(snake)
-		recruits.add addAnimal(snake)
+		recruits.add addAnimal(templateLion)
+		recruits.add addAnimal(templateLion)
+		recruits.add addAnimal(templateLion)
+		recruits.add addAnimal(templateSnake)
+		recruits.add addAnimal(templateSnake)
+		recruits.add addAnimal(templateSnake)
 		Army army = armyService.create recruits
 		return army
 	}
 	def createOtherArmy () {
 		Set<Animal> recruits = new HashSet<Animal>()
-		recruits.add addAnimal(vulture)
-		recruits.add addAnimal(vulture)
-		recruits.add addAnimal(vulture)
-		recruits.add addAnimal(orca)
-		recruits.add addAnimal(orca)
-		recruits.add addAnimal(orca)
+		recruits.add addAnimal(templateVulture)
+		recruits.add addAnimal(templateVulture)
+		recruits.add addAnimal(templateVulture)
+		recruits.add addAnimal(templateOrca)
+		recruits.add addAnimal(templateOrca)
+		recruits.add addAnimal(templateOrca)
 		Army army = armyService.create recruits
 		return army
 	}
@@ -93,9 +93,9 @@ class BootStrap {
 	private static final String FISH = "fish"
 	private static final String BIRD = "bird"
 	private static final String REPTILE = "reptile"
-	private static final String LION = "lion"
-	private static final String ORCA = "orca"
-	private static final String VULTURE = "vulture"
-	private static final String SNAKE = "snake"
+	private static final String LION = "templateLion"
+	private static final String ORCA = "templateOrca"
+	private static final String VULTURE = "templateVulture"
+	private static final String SNAKE = "templateSnake"
 }
 	

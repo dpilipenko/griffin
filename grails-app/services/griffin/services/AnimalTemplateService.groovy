@@ -10,18 +10,21 @@ import griffin.domain.Classification
 @Transactional
 class AnimalTemplateService {
 
-    def create(String commonName, Classification classification) {
+    def create(String commonName, Classification classification, int maxHealth) {
 		if (commonName == null || commonName.isEmpty()) {
 			return null;
 		}
 		if (classification == null) {
 			return null;
 		}
-		AnimalTemplate a = new AnimalTemplate (commonName: commonName, classification: classification).save()
+		if (maxHealth <= 0) {
+			return null;
+		}
+		AnimalTemplate a = new AnimalTemplate (commonName: commonName, classification: classification, maxHealth: maxHealth).save()
 		if (a) {
 			log.debug "Created animal template: " + a
 		} else {
-			log.error "Error creating animal template: commonName:" + commonName + " classification:" + classification
+			log.error "Error creating animal template: commonName:" + commonName + " classification:" + classification +" maxHealth: " + maxHealth
 		}
 		return a
     }
