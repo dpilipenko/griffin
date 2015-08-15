@@ -10,6 +10,9 @@ import griffin.domain.Classification
 class ClassificationService {
 	
     def create(String classificationName) {
+		if (classificationName == null || classificationName.isEmpty()) {
+			return null;
+		}
 		Classification c = new Classification(name: classificationName).save()
 		if (c)
 			log.debug "created classification: " + classificationName

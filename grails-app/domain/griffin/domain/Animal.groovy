@@ -1,6 +1,6 @@
 package griffin.domain
 
-class BaseAnimal {
+class Animal {
 	
 	String name
 	Classification classification
