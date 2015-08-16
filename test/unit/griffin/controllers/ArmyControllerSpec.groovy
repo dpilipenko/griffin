@@ -2,9 +2,7 @@ package griffin.controllers
 
 
 
-import grails.test.mixin.*
-import griffin.controllers.ArmyController;
-import griffin.domain.Army;
+import griffin.domain.Army
 import spock.lang.*
 
 @TestFor(ArmyController)

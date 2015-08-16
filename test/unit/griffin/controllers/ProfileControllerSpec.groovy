@@ -2,7 +2,6 @@ package griffin.controllers
 
 
 
-import grails.test.mixin.*
 import griffin.controllers.ProfileController;
 import griffin.domain.Profile;
 import spock.lang.*
