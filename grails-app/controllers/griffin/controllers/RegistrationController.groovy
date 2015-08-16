@@ -16,8 +16,10 @@ class RegistrationController {
 			flash.formInvalid = true
 			flash.message = "Double Check Your Inputs"
 			redirect (action: 'index') /* go back to registration screen */
+			return
 		}
 		redirect(action: 'success') /* go to success screen */
+		return
 	}
 	
 	def success () {
@@ -32,13 +34,9 @@ class RegistrationController {
 }
 
 protected class RegisterForm {
-	String username
-	String password
-	String passwordConfirm
+	String username, password, passwordConfirm
 	def isValid() {
-		boolean validUsername = checkUsername() 
-		boolean validPassword = checkPassword()
-		return (validUsername && validPassword)
+		return (checkUsername() && checkPassword())
 	}
 	def checkUsername() {
 		if (username == null) return false;

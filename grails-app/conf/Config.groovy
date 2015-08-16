@@ -143,6 +143,7 @@ grails.plugin.springsecurity.authority.className = 'griffin.domain.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                ['permitAll'],
 	'/dbconsole/**':    ['ROLE_ADMIN'],
+	'/registration/**': ['permitAll'],
 	'/index':           ['permitAll'],
 	'/index.gsp':       ['permitAll'],
 	'/assets/**':       ['permitAll'],
