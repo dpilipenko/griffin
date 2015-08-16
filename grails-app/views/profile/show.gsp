@@ -22,10 +22,22 @@
 			</g:if>
 			<ol class="property-list profile">
 			
+				<li class="fieldcontain">
+					<span id="displayName-label" class="property-label"><g:message code="profile.displayName.label" default="Display Name" /></span>
+					<span class="property-value" aria-labelledby="displayName-label">${profileInstance?.displayName?.encodeAsHTML()}</span>
+				</li>
+				
+				
+				<li class="fieldcontain">
+					<span id="tagline-label" class="property-label"><g:message code="profile.tagline.label" default="Tagline" /></span>
+					<span class="property-value" aria-labelledby="tagline-label">${profileInstance?.tagline?.encodeAsHTML()}</span>
+				</li>
+				
+			
 				<g:if test="${profileInstance?.user}">
 				<li class="fieldcontain">
 					<span id="user-label" class="property-label"><g:message code="profile.user.label" default="User" /></span>
-					<span class="property-value" aria-labelledby="user-label"><g:link controller="user" action="show" id="${profileInstance?.user?.id}">${profileInstance?.user?.encodeAsHTML()}</g:link></span>
+					<span class="property-value" aria-labelledby="user-label">${profileInstance?.user?.encodeAsHTML()}</span>
 				</li>
 				</g:if>
 			

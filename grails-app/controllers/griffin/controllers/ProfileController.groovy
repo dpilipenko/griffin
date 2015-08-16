@@ -27,10 +27,12 @@ class ProfileController {
     }
 
     def show(Profile profileInstance) {
+		log.info "Displaying: " + profileInstance
         respond profileInstance
     }
 
     def edit(Profile profileInstance) {
+		log.info "Editing: " + profileInstance
         respond profileInstance
     }
 

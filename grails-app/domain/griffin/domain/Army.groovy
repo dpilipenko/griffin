@@ -6,6 +6,6 @@ class Army {
     }	
 	@Override
 	public String toString() {
-		return "Army[soldiers: "+soldiers+"]"
+		return "Army[soldiers countr: "+soldiers.size()+"]"
 	}
 }
