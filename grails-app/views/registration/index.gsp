@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>register.gsp</title>
+	<title>Register</title>
 </head>
 <body>
 	<div>
