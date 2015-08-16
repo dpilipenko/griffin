@@ -142,7 +142,9 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'griffin.domain
 grails.plugin.springsecurity.authority.className = 'griffin.domain.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                ['permitAll'],
+	'/army/**':			['ROLE_USER'],
 	'/dbconsole/**':    ['ROLE_ADMIN'],
+	'/profile/**':		['ROLE_USER'],
 	'/registration/**': ['permitAll'],
 	'/index':           ['permitAll'],
 	'/index.gsp':       ['permitAll'],
