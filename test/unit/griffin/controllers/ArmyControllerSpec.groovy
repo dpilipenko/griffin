@@ -1,13 +1,15 @@
-package griffin.domain
+package griffin.controllers
 
 
 
 import grails.test.mixin.*
+import griffin.controllers.ArmyController;
+import griffin.domain.Army;
 import spock.lang.*
 
-@TestFor(ProfileController)
-@Mock(Profile)
-class ProfileControllerSpec extends Specification {
+@TestFor(ArmyController)
+@Mock(Army)
+class ArmyControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
@@ -21,8 +23,8 @@ class ProfileControllerSpec extends Specification {
             controller.index()
 
         then:"The model is correct"
-            !model.profileInstanceList
-            model.profileInstanceCount == 0
+            !model.armyInstanceList
+            model.armyInstanceCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -30,7 +32,7 @@ class ProfileControllerSpec extends Specification {
             controller.create()
 
         then:"The model is correctly created"
-            model.profileInstance!= null
+            model.armyInstance!= null
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -38,25 +40,25 @@ class ProfileControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             request.contentType = FORM_CONTENT_TYPE
             request.method = 'POST'
-            def profile = new Profile()
-            profile.validate()
-            controller.save(profile)
+            def army = new Army()
+            army.validate()
+            controller.save(army)
 
         then:"The create view is rendered again with the correct model"
-            model.profileInstance!= null
+            model.armyInstance!= null
             view == 'create'
 
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            profile = new Profile(params)
+            army = new Army(params)
 
-            controller.save(profile)
+            controller.save(army)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/profile/show/1'
+            response.redirectedUrl == '/army/show/1'
             controller.flash.message != null
-            Profile.count() == 1
+            Army.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -68,11 +70,11 @@ class ProfileControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def profile = new Profile(params)
-            controller.show(profile)
+            def army = new Army(params)
+            controller.show(army)
 
         then:"A model is populated containing the domain instance"
-            model.profileInstance == profile
+            model.armyInstance == army
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -84,11 +86,11 @@ class ProfileControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def profile = new Profile(params)
-            controller.edit(profile)
+            def army = new Army(params)
+            controller.edit(army)
 
         then:"A model is populated containing the domain instance"
-            model.profileInstance == profile
+            model.armyInstance == army
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -98,28 +100,28 @@ class ProfileControllerSpec extends Specification {
             controller.update(null)
 
         then:"A 404 error is returned"
-            response.redirectedUrl == '/profile/index'
+            response.redirectedUrl == '/army/index'
             flash.message != null
 
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def profile = new Profile()
-            profile.validate()
-            controller.update(profile)
+            def army = new Army()
+            army.validate()
+            controller.update(army)
 
         then:"The edit view is rendered again with the invalid instance"
             view == 'edit'
-            model.profileInstance == profile
+            model.armyInstance == army
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            profile = new Profile(params).save(flush: true)
-            controller.update(profile)
+            army = new Army(params).save(flush: true)
+            controller.update(army)
 
         then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/profile/show/$profile.id"
+            response.redirectedUrl == "/army/show/$army.id"
             flash.message != null
     }
 
@@ -130,23 +132,23 @@ class ProfileControllerSpec extends Specification {
             controller.delete(null)
 
         then:"A 404 is returned"
-            response.redirectedUrl == '/profile/index'
+            response.redirectedUrl == '/army/index'
             flash.message != null
 
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def profile = new Profile(params).save(flush: true)
+            def army = new Army(params).save(flush: true)
 
         then:"It exists"
-            Profile.count() == 1
+            Army.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(profile)
+            controller.delete(army)
 
         then:"The instance is deleted"
-            Profile.count() == 0
-            response.redirectedUrl == '/profile/index'
+            Army.count() == 0
+            response.redirectedUrl == '/army/index'
             flash.message != null
     }
 }

@@ -1,9 +1,10 @@
-package griffin.domain
+package griffin.controllers
 
 
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import griffin.domain.Army;
 
 @Transactional(readOnly = true)
 class ArmyController {
