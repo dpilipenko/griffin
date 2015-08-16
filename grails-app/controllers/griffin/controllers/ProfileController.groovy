@@ -15,7 +15,7 @@ import griffin.domain.User
 @Transactional(readOnly = true)
 class ProfileController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [update: "PUT"]
 	
 	SpringSecurityService springSecurityService
 
@@ -28,33 +28,6 @@ class ProfileController {
 
     def show(Profile profileInstance) {
         respond profileInstance
-    }
-
-    def create() {
-        respond new Profile(params)
-    }
-
-    @Transactional
-    def save(Profile profileInstance) {
-        if (profileInstance == null) {
-            notFound()
-            return
-        }
-
-        if (profileInstance.hasErrors()) {
-            respond profileInstance.errors, view:'create'
-            return
-        }
-
-        profileInstance.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'profile.label', default: 'Profile'), profileInstance.id])
-                redirect profileInstance
-            }
-            '*' { respond profileInstance, [status: CREATED] }
-        }
     }
 
     def edit(Profile profileInstance) {
@@ -81,25 +54,6 @@ class ProfileController {
                 redirect profileInstance
             }
             '*'{ respond profileInstance, [status: OK] }
-        }
-    }
-
-    @Transactional
-    def delete(Profile profileInstance) {
-
-        if (profileInstance == null) {
-            notFound()
-            return
-        }
-
-        profileInstance.delete flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Profile.label', default: 'Profile'), profileInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
         }
     }
 
