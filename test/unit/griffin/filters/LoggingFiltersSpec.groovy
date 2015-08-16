@@ -3,8 +3,8 @@ package griffin.filters
 import grails.test.mixin.Mock
 import spock.lang.Specification
 
-@Mock(LoggingFilterFilters)
-class LoggingFilterFiltersSpec extends Specification {
+@Mock(LoggingFilters)
+class LoggingFiltersSpec extends Specification {
 
     def setup() {
     }

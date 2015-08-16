@@ -5,7 +5,7 @@ import griffin.domain.User
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory;
 
-class LoggingFilterFilters {
+class LoggingFilters {
 
 	SpringSecurityService springSecurityService
 	

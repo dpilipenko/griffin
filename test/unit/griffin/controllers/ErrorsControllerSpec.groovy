@@ -1,4 +1,4 @@
-package griffin
+package griffin.controllers
 
 import grails.test.mixin.TestFor
 import griffin.controllers.ErrorsController;
