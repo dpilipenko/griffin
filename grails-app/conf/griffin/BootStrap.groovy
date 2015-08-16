@@ -4,7 +4,9 @@ import griffin.domain.Animal
 import griffin.domain.AnimalTemplate
 import griffin.domain.Army
 import griffin.domain.Classification
-import griffin.domain.Role;
+import griffin.domain.Role
+import griffin.domain.User
+import griffin.domain.UserRole
 
 import org.apache.commons.logging.LogFactory
 
@@ -14,6 +16,7 @@ class BootStrap {
 	def animalTemplateService
 	def armyService
 	def classificationService
+	def springSecurityService
 	
 	/* shared members here */
 	BootStrapKingdom bootStrapKingdom
@@ -64,9 +67,19 @@ class BootStrap {
     }
 	def doUserStuff () {
 		def userRole = Role.findByAuthority('ROLE_USER') ?: new Role(authority: 'ROLE_USER').save(failOnError: true)
-		log.info "userRole: " + userRole
 		def adminRole = Role.findByAuthority('ROLE_ADMIN') ?: new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
-		log.info "adminRole: " + adminRole
+		
+		User bob = User.findByUsername('bob@robert.com') ?: new User(
+			username: 'bob@robert.com',
+			password: 'secret',
+			enabled: true
+			).save(failOnError: true)
+		if (!bob.authorities.contains(userRole)) {
+			UserRole.create(bob, userRole, true)
+		}
+		if (!bob.authorities.contains(adminRole)) {
+			UserRole.create(bob, adminRole, true)
+		}
 	}
 	def addAnimal (AnimalTemplate animalTemplate) {
 		Animal a = animalService.create animalTemplate
