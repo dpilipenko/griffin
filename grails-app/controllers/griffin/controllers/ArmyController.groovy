@@ -3,48 +3,39 @@ package griffin.controllers
 
 
 import static org.springframework.http.HttpStatus.*
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import grails.plugin.springsecurity.SpringSecurityService;
 import grails.transaction.Transactional
 import griffin.domain.Army;
+import griffin.domain.Profile
+import griffin.domain.User
+import griffin.services.ProfileService
 
 @Transactional(readOnly = true)
 class ArmyController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	
+	ProfileService profileService
+	SpringSecurityService springSecurityService
 
     def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Army.list(params), model:[armyInstanceCount: Army.count()]
+		User currentUser = springSecurityService.currentUser
+		log.info "listing armies for: " + currentUser
+		params.max = Math.min(max ?: 10, 100)
+		Set<Army> armies = new HashSet<>()
+		for (Profile profile : profileService.getProfiles(currentUser, params)) {
+			armies.add(profile.army)
+		}
+		def armyInstanceList = armies.toList()
+        respond armyInstanceList, model:[armyInstanceCount: armyInstanceList.size()]
     }
 
     def show(Army armyInstance) {
         respond armyInstance
-    }
-
-    def create() {
-        respond new Army(params)
-    }
-
-    @Transactional
-    def save(Army armyInstance) {
-        if (armyInstance == null) {
-            notFound()
-            return
-        }
-
-        if (armyInstance.hasErrors()) {
-            respond armyInstance.errors, view:'create'
-            return
-        }
-
-        armyInstance.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'army.label', default: 'Army'), armyInstance.id])
-                redirect armyInstance
-            }
-            '*' { respond armyInstance, [status: CREATED] }
-        }
     }
 
     def edit(Army armyInstance) {
@@ -74,25 +65,6 @@ class ArmyController {
         }
     }
 
-    @Transactional
-    def delete(Army armyInstance) {
-
-        if (armyInstance == null) {
-            notFound()
-            return
-        }
-
-        armyInstance.delete flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Army.label', default: 'Army'), armyInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
-    }
-
     protected void notFound() {
         request.withFormat {
             form multipartForm {
@@ -102,4 +74,6 @@ class ArmyController {
             '*'{ render status: NOT_FOUND }
         }
     }
+	
+	private static final Log log = LogFactory.getLog(this)
 }

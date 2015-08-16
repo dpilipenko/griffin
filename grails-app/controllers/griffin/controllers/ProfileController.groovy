@@ -11,19 +11,21 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.transaction.Transactional
 import griffin.domain.Profile;
 import griffin.domain.User
+import griffin.services.ProfileService
 
 @Transactional(readOnly = true)
 class ProfileController {
 
     static allowedMethods = [update: "PUT"]
 	
+	ProfileService profileService
 	SpringSecurityService springSecurityService
 
     def index(Integer max) {
 		User currentUser = springSecurityService.currentUser
 		log.info "Listing profiles for " + currentUser
         params.max = Math.min(max ?: 10, 100)
-        respond Profile.findAllByUser(currentUser, params), model:[profileInstanceCount: Profile.count()]
+        respond profileService.getProfiles(currentUser, params), model:[profileInstanceCount: Profile.count()]
     }
 
     def show(Profile profileInstance) {
