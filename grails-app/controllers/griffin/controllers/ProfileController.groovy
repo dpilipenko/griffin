@@ -3,17 +3,27 @@ package griffin.controllers
 
 
 import static org.springframework.http.HttpStatus.*
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import grails.plugin.springsecurity.SpringSecurityService
 import grails.transaction.Transactional
 import griffin.domain.Profile;
+import griffin.domain.User
 
 @Transactional(readOnly = true)
 class ProfileController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	
+	SpringSecurityService springSecurityService
 
     def index(Integer max) {
+		User currentUser = springSecurityService.currentUser
+		log.info "Listing profiles for " + currentUser
         params.max = Math.min(max ?: 10, 100)
-        respond Profile.list(params), model:[profileInstanceCount: Profile.count()]
+        respond Profile.findAllByUser(currentUser, params), model:[profileInstanceCount: Profile.count()]
     }
 
     def show(Profile profileInstance) {
@@ -102,4 +112,6 @@ class ProfileController {
             '*'{ render status: NOT_FOUND }
         }
     }
+	
+	private static final Log log = LogFactory.getLog(this)
 }
