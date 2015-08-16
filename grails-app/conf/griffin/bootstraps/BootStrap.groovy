@@ -1,9 +1,10 @@
-package griffin
+package griffin.bootstraps
 
 import griffin.domain.Animal
 import griffin.domain.AnimalTemplate
 import griffin.domain.Army
 import griffin.domain.Classification
+import griffin.domain.Profile
 import griffin.domain.Role
 import griffin.domain.User
 import griffin.domain.UserRole
@@ -71,6 +72,10 @@ class BootStrap {
 		def adminRole = Role.findByAuthority('ROLE_ADMIN') ?: new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
 		
 		User bob = userService.registerAdmin("bob@robert.com", "secret")
+		Profile bobProfile = Profile.findByUser(bob)
+		bobProfile.displayName = "Bobby J. Hobby"
+		bobProfile.tagline = "Birthed by my bootstraps"
+		bobProfile.save(failOnError: true)
 	}
 	def addAnimal (AnimalTemplate animalTemplate) {
 		Animal a = animalService.create animalTemplate

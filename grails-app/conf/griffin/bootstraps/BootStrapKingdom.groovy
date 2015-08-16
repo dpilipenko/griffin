@@ -1,4 +1,4 @@
-package griffin
+package griffin.bootstraps
 
 import griffin.domain.AnimalTemplate
 import griffin.domain.Classification
