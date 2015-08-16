@@ -17,6 +17,7 @@ class BootStrap {
 	def armyService
 	def classificationService
 	def springSecurityService
+	def userService
 	
 	/* shared members here */
 	BootStrapKingdom bootStrapKingdom
@@ -69,17 +70,7 @@ class BootStrap {
 		def userRole = Role.findByAuthority('ROLE_USER') ?: new Role(authority: 'ROLE_USER').save(failOnError: true)
 		def adminRole = Role.findByAuthority('ROLE_ADMIN') ?: new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
 		
-		User bob = User.findByUsername('bob@robert.com') ?: new User(
-			username: 'bob@robert.com',
-			password: 'secret',
-			enabled: true
-			).save(failOnError: true)
-		if (!bob.authorities.contains(userRole)) {
-			UserRole.create(bob, userRole, true)
-		}
-		if (!bob.authorities.contains(adminRole)) {
-			UserRole.create(bob, adminRole, true)
-		}
+		User bob = userService.registerAdmin("bob@robert.com", "secret")
 	}
 	def addAnimal (AnimalTemplate animalTemplate) {
 		Animal a = animalService.create animalTemplate
