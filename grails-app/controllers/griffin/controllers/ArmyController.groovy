@@ -9,6 +9,8 @@ import org.apache.commons.logging.LogFactory;
 
 import grails.plugin.springsecurity.SpringSecurityService;
 import grails.transaction.Transactional
+import griffin.domain.Animal
+import griffin.domain.AnimalTemplate
 import griffin.domain.Army;
 import griffin.domain.Profile
 import griffin.domain.User
@@ -35,7 +37,9 @@ class ArmyController {
     }
 
     def show(Army armyInstance) {
-        respond armyInstance
+		log.info "showing: " + armyInstance
+		Map<AnimalTemplate, Set<Animal>> resultMaps = mapOutTheArmy armyInstance
+        respond armyInstance, model:[soldierMap: resultMaps]
     }
 
     def edit(Army armyInstance) {
@@ -65,6 +69,20 @@ class ArmyController {
         }
     }
 
+	protected Map<AnimalTemplate, Set<Animal>> mapOutTheArmy (Army army) {
+		Map<AnimalTemplate, Set<Animal>> retval = new HashMap<>()
+		for (Animal soldier : army.soldiers) {
+			AnimalTemplate template = soldier.template
+			Set<Animal> soldierMates = retval.get(template)
+			if (!soldierMates) {
+				soldierMates = new HashSet<Animal> ()
+			}
+			soldierMates.add(soldier)
+			retval.put(template, soldierMates)
+		}
+		return retval
+	}
+	
     protected void notFound() {
         request.withFormat {
             form multipartForm {

@@ -1,5 +1,6 @@
 
 <%@ page import="griffin.domain.Army" %>
+<%@ page import="griffin.domain.AnimalTemplate" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,18 +22,16 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list army">
-			
 				<g:if test="${armyInstance?.soldiers}">
 				<li class="fieldcontain">
 					<span id="soldiers-label" class="property-label"><g:message code="army.soldiers.label" default="Soldiers" /></span>
-					
-						<g:each in="${armyInstance.soldiers}" var="s">
-						<span class="property-value" aria-labelledby="soldiers-label"><g:link controller="animal" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
+					<g:each in="${soldierMap}" var="soldier">
+						<g:set var="grouping" value="${soldier.key.commonName }" />
+						<g:set var="groupingCount" value="${soldier.value.size() }" />
+						<span class="property-value" aria-labbledby="soldiers-label"><p>${grouping }: ${groupingCount }</p></span>
+					</g:each>
 				</li>
 				</g:if>
-			
 			</ol>
 			<g:form url="[resource:armyInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

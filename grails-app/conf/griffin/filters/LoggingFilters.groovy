@@ -13,7 +13,7 @@ class LoggingFilters {
         all(controller:'*', action:'*') {
             before = {
 				User user = springSecurityService.currentUser
-				log.debug "current user is: " + user + " controller action w/ this request: $request.requestURL ? $request.queryString"
+				log.trace "current user is: " + user + " controller action w/ this request: $request.requestURL ? $request.queryString"
             }
             after = { Map model ->
 

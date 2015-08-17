@@ -30,6 +30,8 @@ class BootStrap {
 	Classification classFish
 	Classification classBird
 	Classification classReptile
+	Profile bobProfile
+	
 	
     def init = { servletContext ->	
 		log.info "Begin initializing Griffin"
@@ -60,6 +62,8 @@ class BootStrap {
 		/* define Armies */
 		log.info "Begin defining Armies"
 		Army landArmy = createLandArmy ()
+		bobProfile.army = landArmy
+		bobProfile.save(failOnError: true)
 		Army otherArmy = createOtherArmy ()
 		log.info "Complete defining Armies"
 		
@@ -72,7 +76,7 @@ class BootStrap {
 		def adminRole = Role.findByAuthority('ROLE_ADMIN') ?: new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
 		
 		User bob = userService.registerAdmin("bob@robert.com", "secret")
-		Profile bobProfile = Profile.findByUser(bob)
+		bobProfile = Profile.findByUser(bob)
 		bobProfile.displayName = "Bobby J. Hobby"
 		bobProfile.tagline = "Birthed by my bootstraps"
 		bobProfile.save(failOnError: true)
